@@ -6,7 +6,7 @@ class SimpleGrid {
 	/**
 	 * @param  Query	 $query
 	 * @param  array	 $columns
-	 * @param  callback  $filter
+	 * @param  array     $options
 	 * @return array
 	 */
 	public function data($query, $columns, $options = [])
@@ -16,7 +16,7 @@ class SimpleGrid {
 			if (!is_array($options['search'])) $options['search'] = [$options['search']];
 			$query->where(function ($query) use ($options) {
 				foreach ($options['search'] as $search) {
-				    $query->orWhere($search, 'LIKE', '%'.Request::input('search')['value'].'%');
+					$query->orWhere($search, 'LIKE', '%'.Request::input('search')['value'].'%');
 				}
 			});
 		}
@@ -44,12 +44,17 @@ class SimpleGrid {
 		foreach ($objects as $object) {
 			$object_data = [];
 			foreach ($columns as $column) {
-				if (isset($options['filter'])) { // column filtering
-					$object_data[] = $options['filter']($column, $object->$column, $object);
+				$value = $object->$column;
+				// custom column filtering
+				if (isset($options['filter'])) {
+					$value = $options['filter']($column, $value, $object);
 				}
-				else {
-					$object_data[] = $object->$column;
+				// standard column filtering
+				$filter = config('grid.filter');
+				if ($filter) {
+					$value = $filter($column, $value, $object);
 				}
+				$object_data[] = $value;
 			}
 			$object_data['DT_RowId'] = $object->id;
 			$data[] = $object_data;
