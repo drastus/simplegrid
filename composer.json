@@ -1,0 +1,27 @@
+{
+	"name": "drastus/simplegrid",
+	"description": "Laravel 5 package for the server and client side of DataTables",
+	"keywords" : ["laravel", "datatables"],
+	"license": "MIT",
+	"homepage": "http://github.com/drastus/simplegrid",
+	"authors": [
+		{
+			"name": "Michał Górny",
+			"email": "zrchos@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Drastus\\SimpleGrid\\": "src/"
+		}
+	},
+	"require-dev": {
+		"phpunit/phpunit": "4.*"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Drastus\\SimpleGrid\\Tests\\": "tests/"
+		}
+	}
+}
