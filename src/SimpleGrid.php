@@ -24,9 +24,16 @@ class SimpleGrid {
 		// sorting
 		foreach (Request::input('order') as $order) {
 			if (Request::input('columns')[$order['column']]['orderable'] == 'true') {
-				$query = $query->orderBy($columns[(int)$order['column']], $order['dir']);
+				$query = $query->orderBy($columns[(int)$order['column']],$order['dir']);
 			}
 		}
+
+		$columns_ = [];
+		foreach ($columns as $value) {
+			$column_ = explode('.', $value);
+			$columns_[] = $column_[count($column_)-1];
+		}
+		$columns = $columns_;
 
 		// counting objects
 		$total = $query->count();
