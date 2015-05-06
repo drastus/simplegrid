@@ -24,7 +24,7 @@ class SimpleGrid {
 		// sorting
 		foreach (Request::input('order') as $order) {
 			if (Request::input('columns')[$order['column']]['orderable'] == 'true') {
-				$query = $query->orderByRaw($columns[(int)$order['column']].' '.$order['dir']);
+				$query = $query->orderBy($columns[(int)$order['column']],$order['dir']);
 			}
 		}
 
