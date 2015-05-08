@@ -95,6 +95,17 @@ class SimpleGrid {
 			if ($trans != 'models.' . $class_name . '.' . $column) {
 				$auto_labels[] = $trans;
 			}
+			elseif (strpos($column, '.') !== false) {
+				$column_ = explode('.', $column);
+				$column = $column_[count($column_)-1];
+				$trans = trans('models.' . $class_name . '.' . $column);
+				if ($trans != 'models.' . $class_name . '.' . $column) {
+					$auto_labels[] = $trans;
+				}
+				else {
+					$auto_labels[] = ucfirst(str_replace('_', ' ', $column));
+				}
+			}
 			else {
 				$auto_labels[] = ucfirst(str_replace('_', ' ', $column));
 			}
