@@ -183,8 +183,8 @@ class SimpleGrid {
 	{
 		$default_options = ['with_script'=>true, 'options'=>[]];
 		$config_options = config('grid.options');
-		$options = $default_options + $options;
-		$options['options'] = $config_options + $options['options'];
+		$options = $options + $default_options;
+		$options['options'] = $options['options'] + $config_options;
 
 		$options = $this->prepareLabels($options);
 		$options = $this->prepareData($options);
