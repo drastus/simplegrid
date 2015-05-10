@@ -16,5 +16,6 @@ return [
 			return '✗';
 		}
 		return $value;
-	}
+	},
+	'keyColumns' => ['id'],
 ];

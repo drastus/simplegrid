@@ -1,5 +1,5 @@
 @if (!isset($data))
-	var render_actions = function (data, type, row) {
+	var renderActions = function (data, type, row) {
 		var actions = '';
 		@if (isset($actions['show']))
 		actions += '<a href="{{ route($actions['show']) }}"\
@@ -36,6 +36,7 @@
 					@endforeach
 				} @endif
 			},
+			@endif
 			@if (isset($options))
 				@foreach ($options as $key=>$value)
 					{!! json_encode($key) !!}:
@@ -59,14 +60,15 @@
 			@if (isset($actions))
 			columnDefs: [
 				{
-					render: render_actions,
+					@if (!isset($data))
+					render: renderActions,
 					data: null,
+					@endif
 					width: '15%',
 					sortable: false,
 					targets: [-1]
 				},
 			]
-			@endif
 			@endif
 		});
 	});

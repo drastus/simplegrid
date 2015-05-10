@@ -24,7 +24,7 @@ class SimpleGrid {
 		// sorting
 		foreach (Request::input('order') as $order) {
 			if (Request::input('columns')[$order['column']]['orderable'] == 'true') {
-				$query = $query->orderBy($columns[(int)$order['column']],$order['dir']);
+				$query = $query->orderBy($columns[(int)$order['column']], $order['dir']);
 			}
 		}
 
@@ -158,7 +158,10 @@ class SimpleGrid {
 				foreach ($options['data'] as $key=>$vector) {
 					$new_vector = [];
 					$array = is_object($vector)? $vector->toArray(): $vector;
-					foreach ($options['columns'] as $column) {
+					$columns = (isset($options['actions']) && $options['actions'] && isset($options['keyColumns']))?
+						array_merge($options['columns'], $options['keyColumns']):
+						$options['columns'];
+					foreach ($columns as $column) {
 						$new_vector[$column] = $this->getMultiArrayValue($array, explode('.', $column));
 					}
 					$options['data'][$key] = $new_vector;
@@ -169,6 +172,7 @@ class SimpleGrid {
 					$options['data'][$key] = $vector->toArray();
 					// no relation attrs allowed
 				}
+				$options['columns'] = array_keys($options['data'][0]);
 			}
 		}
 
@@ -181,10 +185,11 @@ class SimpleGrid {
 	 */
 	public function render($options)
 	{
-		$default_options = ['with_script'=>true, 'options'=>[]];
+		$default_options = ['withScript'=>true, 'options'=>[]];
 		$config_options = config('grid.options');
 		$options = $options + $default_options;
 		$options['options'] = $options['options'] + $config_options;
+		$options['keyColumns'] = config('grid.keyColumns');
 
 		$options = $this->prepareLabels($options);
 		$options = $this->prepareData($options);

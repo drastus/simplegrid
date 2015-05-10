@@ -12,24 +12,24 @@
 		@if (isset($data))
 			@foreach ($data as $vector)
 			<tr>
-				@foreach ($vector as $datum)
-					<td>{{ $datum }}</td>
+				@foreach ($vector as $column=>$datum)
+					@if (in_array($column, $columns))<td>{{ $datum }}</td>@endif
 				@endforeach
 
 				@if (isset($actions))
 				<td style="width: 15%">
 					@if (isset($actions['show']))
-					<a href="{{ route($actions['show'], $vector) }}"
+					<a href="{{ route($actions['show'], $vector['id']) }}"
 						class="btn btn-info btn-xs" @if (isset($remote) and $remote) data-remote="true" @endif>
 						{{ trans('views.show') }}</a>
 					@endif
 					@if (isset($actions['edit']))
-					<a href="{{ route($actions['edit'], $vector) }}"
+					<a href="{{ route($actions['edit'], $vector['id']) }}"
 						class="btn btn-warning btn-xs" @if (isset($remote) and $remote) data-remote="true" @endif>
 						{{ trans('views.edit') }}</a>
 					@endif
 					@if (isset($actions['delete']))
-					{!! delete_url(route($actions['delete'], $vector)) !!}
+					{!! delete_url(route($actions['delete'], $vector['id'])) !!}
 					@endif
 				</td>
 				@endif
@@ -39,7 +39,7 @@
 	</tbody>
 </table>
 
-@if ($with_script)
+@if ($withScript)
 <script>
 	@include('simplegrid::script')
 </script>
