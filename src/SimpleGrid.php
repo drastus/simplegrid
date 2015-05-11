@@ -54,12 +54,12 @@ class SimpleGrid {
 				$value = $object->$column;
 				// custom column filtering
 				if (isset($options['filter'])) {
-					$value = $options['filter']($column, $value, $object);
+					$value = $options['filter']($object, $column, $value);
 				}
 				// standard column filtering
 				$filter = config('grid.filter');
 				if ($filter) {
-					$value = $filter($column, $value, $object);
+					$value = $filter($object, $column, $value);
 				}
 				$object_data[] = $value;
 			}

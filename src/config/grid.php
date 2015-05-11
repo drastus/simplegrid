@@ -5,7 +5,7 @@ return [
 	'options' => [
 	],
 	// standard column filters
-	'filter' => function ($column, $value, $object) {
+	'filter' => function ($object, $column, $value) {
 		if ($value instanceof \DateTime) {
 			return $value->format('Y-m-d H:i');
 		}
