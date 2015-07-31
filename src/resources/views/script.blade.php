@@ -20,7 +20,7 @@
 @endif
 
 	$(function () {
-		$('.table').DataTable({
+		@if (isset($id)) $('#{{ $id }}') @else $('.table') @endif .DataTable({
 			@if (!isset($data))
 			serverSide: true,
 			ajax: {
